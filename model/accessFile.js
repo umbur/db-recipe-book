@@ -1,32 +1,7 @@
-const knex = require("knex");
-const knexConfig = require("./knexfile.js");
-const db = require('../knexfile.js')
+const knex = require('knex');
+const knexConfig = require('../knexfile.js');
 
-
-function getDishes() {
-    return db('dishes')
-}
-
-function addDish(dish) {
-    return db('dishes')
-    .insert(dish)
-    .then(id => id[0])
-}
-
-function getDish(id) {
-    return db(dishes)
-    .where('id', id)
-}
-
-function getRecipes() {
-    return db('recipes')
-}
-
-function addRecipe(recipe) {
-    return db('recipes')
-    .insert(recipe)
-    .then(id => id[0])
-}
+db = knex(knexConfig.development);
 
 module.exports = {
     getDishes,
@@ -35,3 +10,29 @@ module.exports = {
     getRecipes,
     addRecipe
 }
+
+function getDishes() {
+    return db('dishes');
+  }
+  
+  function getDish(id) { // include list of related recipes
+    return db('dishes').where("dishes.id",id)
+}
+  
+  function addDish(dish) {
+    return db('dishes')
+      .insert(dish)
+      .returning('id')
+  }
+  
+
+  function getRecipes () {
+    return db('recipes')
+  }
+  
+  function addRecipe(recipe) {
+      return db('recipes')
+      .insert(recipe)
+  }
+
+  
