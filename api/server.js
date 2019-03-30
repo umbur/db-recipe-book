@@ -14,6 +14,7 @@ const db = require('../model/accessFile.js');
 server.get('/api/dishes', (req, res) => {
     db.getDishes()
     .then(response => {
+      //console.log(response)
         res.status(200).json(response)
     })
     .catch(err => {
@@ -26,7 +27,7 @@ server.get('/api/dishes/:id', (req, res) => {
     const id = req.params.id;
     db.getDish(id)
     .then(response => {
-        if(response > 0){
+        if(response.length > 0){
             res.status(200).json(response)
         } else {
             res.status(404).json({ error: "There is no Dish with the provided id" });
@@ -68,3 +69,4 @@ server.get('/api/recipes', (req, res) => {
   
 
 module.exports = server;
+ 
